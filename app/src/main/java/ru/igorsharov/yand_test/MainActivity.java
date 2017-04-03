@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public class StartParsing extends AsyncTask<Void, Void, Void> {
+    private class StartParsing extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -23,5 +23,6 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
 
+        // test_hello
     }
 }
