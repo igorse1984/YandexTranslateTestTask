@@ -12,16 +12,16 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    final EditText et = (EditText) findViewById(R.id.editText);
-    final TextView tv = (TextView) findViewById(R.id.textView);
+    EditText et = null;
+    TextView tv = null;
     ArrayList al = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        final EditText et = (EditText) findViewById(R.id.editText);
-//        final TextView tv = (TextView) findViewById(R.id.textView);
+        et = (EditText) findViewById(R.id.editText);
+        tv = (TextView) findViewById(R.id.textView);
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
                 // отправляем полученную строку в обработку
                 new StartParsing().execute(strIn);
 
-//                String strOut = (String) al.get(0);
+                String strOut = (String) al.get(0);
 
-//                tv.setText(strOut);
+                tv.setText(strOut);
             }
         });
 
@@ -66,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(String... params) {
             // params[0] - текст, полученный из EditText
 
-            al = new GetJSON().fetchItems(params[0]);
+            GetJSON gj = new GetJSON();
+//            System.out.println("!!!!" + gj.fetchItems(params[0]));
             return null;
         }
 

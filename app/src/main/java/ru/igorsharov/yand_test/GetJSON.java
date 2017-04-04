@@ -34,19 +34,19 @@ public class GetJSON {
     }
 
     // основной метод класса, делает запрос на сервер для перевода введеного текста
-    public ArrayList fetchItems(String str) {
+    public ArrayList<String> fetchItems(String str) {
         ArrayList<String> al = null;
         try {
             String url = Uri.parse("https://translate.yandex.net/api/v1.5/tr.json/translate?")
                     .buildUpon()
                     .appendQueryParameter("key", API_KEY)
                     .appendQueryParameter("text", str)
-                    .appendQueryParameter("lang", "ru-en")
+                    .appendQueryParameter("lang", "en-ru")
                     .build().toString();
 
-//            String translate = jsonParser(getJSONString(url));
+            String translate = jsonParser(getJSONString(url));
 
-            al.add(jsonParser(getJSONString(url)));
+            al.add(translate);
 
             // тестируем вывод результата
 //            System.out.println("JSON answer: " + translate);
