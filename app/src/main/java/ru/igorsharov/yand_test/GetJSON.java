@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -33,7 +34,8 @@ public class GetJSON {
     }
 
     // основной метод класса, делает запрос на сервер для перевода введеного текста
-    public void fetchItems(String str) {
+    public ArrayList fetchItems(String str) {
+        ArrayList<String> al = null;
         try {
             String url = Uri.parse("https://translate.yandex.net/api/v1.5/tr.json/translate?")
                     .buildUpon()
@@ -41,16 +43,28 @@ public class GetJSON {
                     .appendQueryParameter("text", str)
                     .appendQueryParameter("lang", "ru-en")
                     .build().toString();
-            String jsonString = getJSONString(url);
-            JSONObject jsonBody = new JSONObject(jsonString);
+
+//            String translate = jsonParser(getJSONString(url));
+
+            al.add(jsonParser(getJSONString(url)));
 
             // тестируем вывод результата
-            System.out.println("JSON answer: " + jsonString);
+//            System.out.println("JSON answer: " + translate);
+
 
         } catch (IOException ioe) {
             Log.e(LOG_TAG, "ОШИБКА ЗАГРУЗКИ ДАННЫХ", ioe);
+        } catch (JSONException joe) {
+            Log.e(LOG_TAG, "ОШИБКА ПОЛУЧЕНИЯ JSON", joe);
         }
-        catch (JSONException joe) {
-        }
+        return al;
+
+}
+
+    private String jsonParser(String jsonString) throws JSONException {
+        JSONObject jsonBody = new JSONObject(jsonString);
+        String translate = jsonBody.getString("text");
+        return translate;
     }
+
 }
