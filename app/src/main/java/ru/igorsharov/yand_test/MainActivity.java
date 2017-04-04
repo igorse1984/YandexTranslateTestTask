@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // сохраняем текст, введенный до нажатия Enter в переменную
+                // сохраняем текст, введенный до нажатия кнопки в переменную
                 String strIn = et.getText().toString();
                 // отправляем полученную строку в обработку
                 new StartParsing().execute(strIn);
