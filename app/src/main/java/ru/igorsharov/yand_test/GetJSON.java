@@ -35,8 +35,9 @@ public class GetJSON {
 
     // основной метод класса, делает запрос на сервер для перевода введеного текста
     public ArrayList<String> fetchItems(String str) {
-        ArrayList<String> al = null;
+        ArrayList<String> al = new ArrayList<>();
         try {
+            // компоновка url для запроса
             String url = Uri.parse("https://translate.yandex.net/api/v1.5/tr.json/translate?")
                     .buildUpon()
                     .appendQueryParameter("key", API_KEY)
@@ -59,8 +60,9 @@ public class GetJSON {
         }
         return al;
 
-}
+    }
 
+    // раскладывает полученный JSON строковый ответ
     private String jsonParser(String jsonString) throws JSONException {
         JSONObject jsonBody = new JSONObject(jsonString);
         String translate = jsonBody.getString("text");

@@ -7,14 +7,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText et = null;
-    TextView tv = null;
-    ArrayList al = null;
+    EditText et;
+    TextView tv;
+    ArrayList al;
+
+    public void onMyButtonClick(View view)
+    {
+        // сохраняем текст, введенный до нажатия кнопки в переменную
+        String strIn = et.getText().toString();
+        // отправляем полученную строку в обработку
+        new StartParsing().execute(strIn);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,20 +31,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         et = (EditText) findViewById(R.id.editText);
         tv = (TextView) findViewById(R.id.textView);
-        Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+//        Button button = (Button) findViewById(R.id.button);
+
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
                 // сохраняем текст, введенный до нажатия кнопки в переменную
-                String strIn = et.getText().toString();
+//                String strIn = et.getText().toString();
                 // отправляем полученную строку в обработку
-                new StartParsing().execute(strIn);
-
-                String strOut = (String) al.get(0);
-
-                tv.setText(strOut);
-            }
-        });
+//                new StartParsing().execute(strIn);
+//                System.out.println("!!!!!" + al.get(0));
+//                String strOut = (String) al.get(0);
+//
+//                tv.setText(strOut);
+//            }
+//        });
 
 // слушатель EditText
 //        et.setOnKeyListener(new View.OnKeyListener() {
@@ -60,15 +70,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class StartParsing extends AsyncTask<String, Void, Void> {
+    private class StartParsing extends AsyncTask<String, Void, ArrayList> {
 
         @Override
-        protected Void doInBackground(String... params) {
+        protected ArrayList doInBackground(String... params) {
             // params[0] - текст, полученный из EditText
 
-            GetJSON gj = new GetJSON();
-//            System.out.println("!!!!" + gj.fetchItems(params[0]));
-            return null;
+            al = new GetJSON().fetchItems(params[0]);
+//            System.out.println("!!!!" + new GetJSON().fetchItems(params[0]));
+            return al;
         }
 
     }
