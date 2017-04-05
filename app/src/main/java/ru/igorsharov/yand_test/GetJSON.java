@@ -49,8 +49,8 @@ public class GetJSON {
 
             al.add(translate);
 
-            // тестируем вывод результата
-//            System.out.println("JSON answer: " + translate);
+//             тестируем вывод результата
+            System.out.println("JSON answer: " + translate);
 
 
         } catch (IOException ioe) {
