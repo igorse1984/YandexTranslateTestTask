@@ -9,6 +9,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -47,10 +49,10 @@ public class GetJSON {
 
             String translate = jsonParser(getJSONString(url));
 
+
             al.add(translate);
 
-//             тестируем вывод результата
-            System.out.println("JSON answer: " + translate);
+            System.out.println("JSON answer: " + getJSONString(url));
 
 
         } catch (IOException ioe) {
@@ -65,7 +67,8 @@ public class GetJSON {
     // раскладывает полученный JSON строковый ответ
     private String jsonParser(String jsonString) throws JSONException {
         JSONObject jsonBody = new JSONObject(jsonString);
-        String translate = jsonBody.getString("text");
+//        String translate = jsonBody.getString("text");
+
         return translate;
     }
 
