@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(final Void result) {
+        protected void onPostExecute(Void aVoid) {
 //            super.onPostExecute(aVoid);
 //            System.out.println("что мы получили?: "+ al.get(0));
             tv.setText(al.get(0).toString());
