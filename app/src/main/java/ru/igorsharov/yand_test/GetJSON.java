@@ -4,13 +4,12 @@ package ru.igorsharov.yand_test;
 import android.net.Uri;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -39,7 +38,7 @@ public class GetJSON {
     public ArrayList<String> fetchItems(String str) {
         ArrayList<String> al = new ArrayList<>();
         try {
-            // компоновка url для запроса
+            // компоновка url для запроса для получения JSON ответа
             String url = Uri.parse("https://translate.yandex.net/api/v1.5/tr.json/translate?")
                     .buildUpon()
                     .appendQueryParameter("key", API_KEY)
@@ -51,7 +50,7 @@ public class GetJSON {
 
 
             al.add(translate);
-
+            System.out.println(url);
             System.out.println("JSON answer: " + getJSONString(url));
 
 
@@ -67,9 +66,10 @@ public class GetJSON {
     // раскладывает полученный JSON строковый ответ
     private String jsonParser(String jsonString) throws JSONException {
         JSONObject jsonBody = new JSONObject(jsonString);
-//        String translate = jsonBody.getString("text");
+        JSONArray translate = jsonBody.getJSONArray("text");
+        System.out.println("что это?: " + translate);
 
-        return translate;
+        return "пока без перевода";
     }
 
 }
