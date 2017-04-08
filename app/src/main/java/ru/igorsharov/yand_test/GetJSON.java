@@ -4,24 +4,26 @@ package ru.igorsharov.yand_test;
 import android.net.Uri;
 import android.util.Log;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class GetJSON {
+public abstract class GetJSON {
 
     private static final String LOG_TAG = "GetJSON";
-    private static final String API_KEY = "trnsl.1.1.20170325T140225Z.5fb87348c9fc5b7a.56c642ead6f88545a2539c4e67fad415f8d7d87b";
+    protected static final String API_KEY = "trnsl.1.1.20170325T140225Z.5fb87348c9fc5b7a.56c642ead6f88545a2539c4e67fad415f8d7d87b";
 
-    // вспомогательный метод, HTTP провайдер
-    private String getJSONString(String url) throws IOException {
+
+    // вспомогательный метод, HTTP провайдер, отправка запроса, получение ответа
+   protected String getJSONString(String url) throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
@@ -35,41 +37,20 @@ public class GetJSON {
     }
 
     // основной метод класса, делает запрос на сервер для перевода введеного текста
-    public ArrayList<String> fetchItems(String str) {
-        ArrayList<String> al = new ArrayList<>();
-        try {
-            // компоновка url для запроса для получения JSON ответа
-            String url = Uri.parse("https://translate.yandex.net/api/v1.5/tr.json/translate?")
-                    .buildUpon()
-                    .appendQueryParameter("key", API_KEY)
-                    .appendQueryParameter("text", str)
-                    .appendQueryParameter("lang", "en-ru")
-                    .build().toString();
+    abstract protected String fetchItems(String str);
 
-            String translate = jsonParser(getJSONString(url));
+    // сепарируем полученный JSON String
+    protected String jsonParser(String jsonString) throws JSONException {
+        JSONObject jsonBody = new JSONObject(jsonString);
+        String translate = jsonBody.getString("text");
 
-
-            al.add(translate);
-            System.out.println(url);
-            System.out.println("JSON answer: " + getJSONString(url));
-
-
-        } catch (IOException ioe) {
-            Log.e(LOG_TAG, "ОШИБКА ЗАГРУЗКИ ДАННЫХ", ioe);
-        } catch (JSONException joe) {
-            Log.e(LOG_TAG, "ОШИБКА ПОЛУЧЕНИЯ JSON", joe);
-        }
-        return al;
-
+        return removeExtraChar(translate);
     }
 
-    // раскладывает полученный JSON строковый ответ
-    private String jsonParser(String jsonString) throws JSONException {
-        JSONObject jsonBody = new JSONObject(jsonString);
-        JSONArray translate = jsonBody.getJSONArray("text");
-        System.out.println("что это?: " + translate);
+    // удаление лишних символов из строкового ответа
+    public static String removeExtraChar(String s) {
 
-        return "пока без перевода";
+        return s.substring(2, s.length() - 2);
     }
 
 }

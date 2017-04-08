@@ -14,14 +14,14 @@ public class MainActivity extends AppCompatActivity {
 
     EditText et;
     TextView tv;
-    ArrayList al;
+    ArrayList al = new ArrayList();
+    int count = 0;
 
     public void onMyButtonClick(View view) {
         // сохраняем текст, введенный до нажатия кнопки в переменную
         String strIn = et.getText().toString();
         // отправляем полученную строку в обработку
         new StartParsing().execute(strIn);
-//        System.out.println("реакция то вообще есть?: " + al.get(0).toString());
     }
 
     @Override
@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         et = (EditText) findViewById(R.id.editText);
         tv = (TextView) findViewById(R.id.textView);
 
-
     }
 
 
@@ -39,18 +38,17 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            // params[0] - текст, полученный из EditText
 
-            al = new GetJSON().fetchItems(params[0]);
-//            System.out.println("Что есть ArrayList в doInBack: " + al.get(0));
+            // params[0]: EditText -> strIn -> AsyncTask
+
+            al.add(new GetJSONTranslate().fetchItems(params[0]));
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-//            super.onPostExecute(aVoid);
-//            System.out.println("что мы получили?: "+ al.get(0));
-            tv.setText(al.get(0).toString());
+            tv.setText(al.get(count).toString());
+            count++;
         }
     }
 }
