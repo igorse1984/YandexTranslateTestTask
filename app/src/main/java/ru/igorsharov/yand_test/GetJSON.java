@@ -40,17 +40,7 @@ public abstract class GetJSON {
     abstract protected String fetchItems(String str);
 
     // сепарируем полученный JSON String
-    protected String jsonParser(String jsonString) throws JSONException {
-        JSONObject jsonBody = new JSONObject(jsonString);
-        String translate = jsonBody.getString("text");
+    abstract protected String jsonParser(String jsonString) throws JSONException;
 
-        return removeExtraChar(translate);
-    }
-
-    // удаление лишних символов из строкового ответа
-    public static String removeExtraChar(String s) {
-
-        return s.substring(2, s.length() - 2);
-    }
 
 }

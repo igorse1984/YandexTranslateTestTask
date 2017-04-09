@@ -41,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
             // params[0]: EditText -> strIn -> AsyncTask
 
-            al.add(new GetJSONTranslate().fetchItems(params[0]));
+//            al.add(new GetJSONTranslate().fetchItems(params[0]));
+            al.add(new GetJSONLangs().fetchItems(params[0]));
             return null;
         }
 
