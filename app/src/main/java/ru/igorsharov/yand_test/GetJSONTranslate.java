@@ -13,8 +13,9 @@ public class GetJSONTranslate extends GetJSON{
     private static final String LOG_TAG = "GetJSONTranslate";
     private static final String URL = "https://translate.yandex.net/api/v1.5/tr.json/translate?";
 
-    @Override
-    protected String fetchItems(String str) {
+    // основной метод класса, делает запрос на сервер для перевода введеного текста
+
+     protected String fetchItems(String str) {
         String translate = null;
         try {
             // компоновка url запроса
@@ -28,9 +29,8 @@ public class GetJSONTranslate extends GetJSON{
             translate = jsonParser(getJSONString(url));
 
 
-
             // test output
-            System.out.println("JSON answer: " + getJSONString(url));
+//            System.out.println("JSON answer: " + getJSONString(url));
 
 
         } catch (IOException ioe) {
@@ -41,7 +41,8 @@ public class GetJSONTranslate extends GetJSON{
         return translate;
     }
 
-    @Override
+
+    // достаем перевод из ответа
     protected String jsonParser(String jsonString) throws JSONException {
 
         JSONObject jsonBody = new JSONObject(jsonString);

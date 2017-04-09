@@ -12,6 +12,8 @@ import java.util.Map;
 
 
 public class JSONHelper {
+
+
     public static Object toJSON(Object object) throws JSONException {
         if (object instanceof Map) {
             JSONObject json = new JSONObject();
@@ -22,7 +24,7 @@ public class JSONHelper {
             return json;
         } else if (object instanceof Iterable) {
             JSONArray json = new JSONArray();
-            for (Object value : ((Iterable)object)) {
+            for (Object value : ((Iterable) object)) {
                 json.put(value);
             }
             return json;
@@ -39,15 +41,27 @@ public class JSONHelper {
         return toMap(object.getJSONObject(key));
     }
 
-    public static Map<String, Object> toMap(JSONObject object) throws JSONException {
+    public static Map<String, Object> toMap(JSONObject jsonObject) throws JSONException {
         Map<String, Object> map = new HashMap();
-        Iterator keys = object.keys();
+        Iterator keys = jsonObject.keys();
         while (keys.hasNext()) {
             String key = (String) keys.next();
-            map.put(key, fromJson(object.get(key)));
+            map.put(key, fromJson(jsonObject.get(key)));
+
         }
         return map;
+
+    } public static List<String> toList(JSONObject jsonObject) throws JSONException {
+        List<String> list = new ArrayList<>();
+        Iterator keys = jsonObject.keys();
+        while (keys.hasNext()) {
+            String key = (String) keys.next();
+            list.add((String) jsonObject.get(key));
+
+        }
+        return list;
     }
+
 
     public static List toList(JSONArray array) throws JSONException {
         List list = new ArrayList();

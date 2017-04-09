@@ -23,7 +23,7 @@ public abstract class GetJSON {
 
 
     // вспомогательный метод, HTTP провайдер, отправка запроса, получение ответа
-   protected String getJSONString(String url) throws IOException {
+    protected String getJSONString(String url) throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
@@ -36,11 +36,6 @@ public abstract class GetJSON {
         return result;
     }
 
-    // основной метод класса, делает запрос на сервер для перевода введеного текста
-    abstract protected String fetchItems(String str);
-
-    // сепарируем полученный JSON String
-    abstract protected String jsonParser(String jsonString) throws JSONException;
 
 
 }
