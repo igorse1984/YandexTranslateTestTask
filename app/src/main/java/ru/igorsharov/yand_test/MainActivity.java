@@ -4,11 +4,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
         // сохраняем текст, введенный до нажатия кнопки в переменную
         String strIn = et.getText().toString();
         // отправляем полученную строку в обработку
-        new StartParsing().execute(strIn);
+        String selected = sp.getSelectedItem().toString();
+        new StartParsing().execute(strIn, selected);
+
     }
 
     @Override
@@ -36,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         et = (EditText) findViewById(R.id.editText);
         tv = (TextView) findViewById(R.id.textView);
         sp = (Spinner) findViewById(R.id.spinner);
-
         new StartParsingLangs().execute();
     }
 
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, list);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             sp.setAdapter(adapter);
+
         }
     }
 
@@ -64,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(String... params) {
 
             // EditText -> strIn -> AsyncTask -> params[0]
-            al.add(new GetJSONTranslate().fetchItems(params[0]));
+            al.add(new GetJSONTranslate().fetchItems(params[0], params[1]));
             return null;
         }
 

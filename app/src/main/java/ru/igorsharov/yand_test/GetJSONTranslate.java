@@ -15,7 +15,7 @@ public class GetJSONTranslate extends GetJSON{
 
     // основной метод класса, делает запрос на сервер для перевода введеного текста
 
-     protected String fetchItems(String str) {
+     protected String fetchItems(String str, String select) {
         String translate = null;
         try {
             // компоновка url запроса
