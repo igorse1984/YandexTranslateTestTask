@@ -1,16 +1,7 @@
 package ru.igorsharov.yand_test;
 
 
-import android.net.Uri;
-import android.util.Log;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -18,7 +9,7 @@ import okhttp3.Response;
 
 public abstract class GetJSON {
 
-    private static final String LOG_TAG = "GetJSON";
+    protected static final String LOG_TAG = "GetJSONClass";
     protected static final String API_KEY = "trnsl.1.1.20170325T140225Z.5fb87348c9fc5b7a.56c642ead6f88545a2539c4e67fad415f8d7d87b";
 
 
@@ -35,7 +26,6 @@ public abstract class GetJSON {
 
         return result;
     }
-
 
 
 }

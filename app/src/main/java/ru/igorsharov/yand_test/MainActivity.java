@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,14 +28,11 @@ public class MainActivity extends AppCompatActivity {
     int count = 0;
 
     public void onMyButtonClick(View view) {
-        // сохраняем текст, введенный до нажатия кнопки
+        // текст, введенный до нажатия кнопки
         String strIn = et.getText().toString();
-
-        // запоминаем выбор в Spinner-е
-//        String selected = sp.getSelectedItem().toString();
+        // выбор в Spinner-е
         String selected = map.get(sp.getSelectedItem()).toString();
-
-        // инициируем запрос на перевод
+        // запрос на перевод
         new StartParsingTranslate().execute(strIn, selected);
 
     }
@@ -89,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(String... params) {
             // EditText -> params[0]
-            al.add(new GetJSONTranslate().fetchItems(params[0], params[1]));
+            String answLang = new GetJSONDetect().fetchItems(params[0]);
+            al.add(new GetJSONTranslate().fetchItems(params[0], params[1], answLang));
             return null;
         }
 
@@ -99,4 +96,5 @@ public class MainActivity extends AppCompatActivity {
             count++;
         }
     }
+
 }

@@ -9,6 +9,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+/**
+ *  класс для получения списка поддерживаемых для меревода языков
+ */
 
 public class GetJSONLangs extends GetJSON {
 
@@ -22,6 +25,7 @@ public class GetJSONLangs extends GetJSON {
             String url = Uri.parse(URL)
                     .buildUpon()
                     .appendQueryParameter("key", API_KEY)
+                    // выбран русский язык для ответа со списком языков
                     .appendQueryParameter("ui", "ru")
                     .build().toString();
             jsonObjLangsAnswer = new JSONObject(getJSONString(url));
@@ -34,5 +38,7 @@ public class GetJSONLangs extends GetJSON {
         }
         return jsonObjLangsAnswer;
     }
+
+
 
 }
