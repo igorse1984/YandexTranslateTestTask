@@ -15,7 +15,7 @@ public class GetJSONTranslate extends GetJSON {
 
     // основной метод класса, делает запрос на сервер для перевода введеного текста
 
-    protected String fetchItems(String str, String select, String answLang) {
+    protected String fetchItems(String str, String select, String langType) {
         String translate = null;
         try {
             // компоновка url запроса
@@ -23,7 +23,7 @@ public class GetJSONTranslate extends GetJSON {
                     .buildUpon()
                     .appendQueryParameter("key", API_KEY)
                     .appendQueryParameter("text", str)
-                    .appendQueryParameter("lang", answLang + "-" + select)
+                    .appendQueryParameter("lang", langType + "-" + select)
                     .build().toString();
 
             translate = jsonParser(getJSONString(url));

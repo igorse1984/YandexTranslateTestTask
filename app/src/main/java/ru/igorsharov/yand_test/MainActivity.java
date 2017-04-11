@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(String... params) {
             // EditText -> params[0]
-            String answLang = new GetJSONDetect().fetchItems(params[0]);
-            al.add(new GetJSONTranslate().fetchItems(params[0], params[1], answLang));
+            String langType = new GetJSONDetect().fetchItems(params[0]);
+            al.add(new GetJSONTranslate().fetchItems(params[0], params[1], langType));
             return null;
         }
 

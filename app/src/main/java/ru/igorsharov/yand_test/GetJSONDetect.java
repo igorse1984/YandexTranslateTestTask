@@ -14,7 +14,7 @@ public class GetJSONDetect extends GetJSON{
     private static final String URL = "https://translate.yandex.net/api/v1.5/tr.json/detect?";
 
     protected String fetchItems(String str) {
-        String answLang = null;
+        String answLangType = null;
         try {
             // компоновка url запроса
             String url = Uri.parse(URL)
@@ -23,7 +23,7 @@ public class GetJSONDetect extends GetJSON{
                     .appendQueryParameter("text", str)
                     .build().toString();
 //            jsonObjDetectAnswer = new JSONObject(getJSONString(url));
-         answLang =  jsonParser(getJSONString(url));
+         answLangType =  jsonParser(getJSONString(url));
 
 
         } catch (IOException ioe) {
@@ -31,7 +31,7 @@ public class GetJSONDetect extends GetJSON{
         } catch (JSONException joe) {
             Log.e(LOG_TAG, "ОШИБКА ПОЛУЧЕНИЯ JSON", joe);
         }
-        return answLang;
+        return answLangType;
     }
 
     // достаем определенный язык из ответа
