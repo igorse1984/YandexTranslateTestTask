@@ -50,8 +50,21 @@ public class JSONHelper {
 
         }
         return map;
+    }
 
-    } public static List<String> toList(JSONObject jsonObject) throws JSONException {
+    public static Map<String, String> toMapReverseKey(JSONObject jsonObject) throws JSONException {
+        Map<String, String> map = new HashMap();
+        Iterator keys = jsonObject.keys();
+        while (keys.hasNext()) {
+            String key = (String) keys.next();
+            String jsonText = jsonObject.getString(key);
+            map.put(jsonText, key);
+
+        }
+        return map;
+    }
+
+    public static List<String> toList(JSONObject jsonObject) throws JSONException {
         List<String> list = new ArrayList<>();
         Iterator keys = jsonObject.keys();
         while (keys.hasNext()) {

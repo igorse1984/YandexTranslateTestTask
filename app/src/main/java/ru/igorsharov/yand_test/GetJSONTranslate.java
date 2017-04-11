@@ -9,13 +9,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class GetJSONTranslate extends GetJSON{
+public class GetJSONTranslate extends GetJSON {
     private static final String LOG_TAG = "GetJSONTranslate";
     private static final String URL = "https://translate.yandex.net/api/v1.5/tr.json/translate?";
 
     // основной метод класса, делает запрос на сервер для перевода введеного текста
 
-     protected String fetchItems(String str, String select) {
+    protected String fetchItems(String str, String select) {
         String translate = null;
         try {
             // компоновка url запроса
@@ -23,14 +23,10 @@ public class GetJSONTranslate extends GetJSON{
                     .buildUpon()
                     .appendQueryParameter("key", API_KEY)
                     .appendQueryParameter("text", str)
-                    .appendQueryParameter("lang", "ru-en")
+                    .appendQueryParameter("lang", "en-" + select)
                     .build().toString();
 
             translate = jsonParser(getJSONString(url));
-
-
-            // test output
-//            System.out.println("JSON answer: " + getJSONString(url));
 
 
         } catch (IOException ioe) {

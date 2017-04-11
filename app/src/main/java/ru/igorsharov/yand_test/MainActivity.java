@@ -4,16 +4,19 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,15 +24,20 @@ public class MainActivity extends AppCompatActivity {
     TextView tv;
     Spinner sp;
     ArrayList al = new ArrayList();
-    List list = new ArrayList();
+    Map map = new HashMap<>();
+
     int count = 0;
 
     public void onMyButtonClick(View view) {
-        // сохраняем текст, введенный до нажатия кнопки в переменную
+        // сохраняем текст, введенный до нажатия кнопки
         String strIn = et.getText().toString();
-        // отправляем полученную строку в обработку
-        String selected = sp.getSelectedItem().toString();
-        new StartParsing().execute(strIn, selected);
+
+        // запоминаем выбор в Spinner-е
+//        String selected = sp.getSelectedItem().toString();
+        String selected = map.get(sp.getSelectedItem()).toString();
+
+        // инициируем запрос на перевод
+        new StartParsingTranslate().execute(strIn, selected);
 
     }
 
@@ -40,20 +48,34 @@ public class MainActivity extends AppCompatActivity {
         et = (EditText) findViewById(R.id.editText);
         tv = (TextView) findViewById(R.id.textView);
         sp = (Spinner) findViewById(R.id.spinner);
+        // запускаем запрос списка поддерживаемых для перевода языков
         new StartParsingLangs().execute();
     }
 
     private class StartParsingLangs extends AsyncTask<Void, Void, Void> {
-
+        JSONObject jsonLangsObjAnswer;
 
         @Override
         protected Void doInBackground(Void... params) {
-            list = new GetJSONLangs().fetchItems();
+            jsonLangsObjAnswer = new GetJSONLangs().fetchItems();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            List list = new ArrayList();
+
+            try {
+                JSONObject jsonLangsObj = jsonLangsObjAnswer.getJSONObject("langs");
+
+                // конвертируем полученный JSON с "langs" в List для передачи в spinner
+                list = JSONHelper.toList(jsonLangsObj);
+                // конвертируем полученный JSON с "langs" в Map для получения ключа по названию языка
+                map = JSONHelper.toMapReverseKey(jsonLangsObj);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, list);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             sp.setAdapter(adapter);
@@ -62,12 +84,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class StartParsing extends AsyncTask<String, Void, Void> {
+    private class StartParsingTranslate extends AsyncTask<String, Void, Void> {
 
         @Override
         protected Void doInBackground(String... params) {
-
-            // EditText -> strIn -> AsyncTask -> params[0]
+            // EditText -> params[0]
             al.add(new GetJSONTranslate().fetchItems(params[0], params[1]));
             return null;
         }
