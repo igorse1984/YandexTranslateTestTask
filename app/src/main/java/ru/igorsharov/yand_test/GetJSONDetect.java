@@ -34,7 +34,7 @@ public class GetJSONDetect extends GetJSON{
         return answLangType;
     }
 
-    // достаем определенный язык из ответа
+    // достаем определенный сервером язык из ответа
     protected String jsonParser(String jsonString) throws JSONException {
 
         JSONObject jsonBody = new JSONObject(jsonString);
