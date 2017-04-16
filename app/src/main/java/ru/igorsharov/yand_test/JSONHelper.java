@@ -66,13 +66,23 @@ public class JSONHelper {
     }
 
     public static List<String> toList(JSONObject jsonObject) throws JSONException {
-        List<String> list = new ArrayList<>();
         Iterator keys = jsonObject.keys();
+        List<String> list = new ArrayList<>(jsonObject.length());
+
+        // 2 места под русский и английский в начале списка
+        for (int i = 0; i < 2; i++)
+        list.add(null);
+
         while (keys.hasNext()) {
             String key = (String) keys.next();
-            list.add((String) jsonObject.get(key));
-
+            if (key.equals("en"))
+                list.set(0, (String) jsonObject.get(key));
+            else if (key.equals("ru"))
+                list.set(1, (String) jsonObject.get(key));
+            else
+                list.add((String) jsonObject.get(key));
         }
+
         return list;
     }
 

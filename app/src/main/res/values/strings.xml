@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">yand-test</string>
     <string name="button_text">Перевести</string>
+    <string name="enter_text">Введите текст</string>
 </resources>
