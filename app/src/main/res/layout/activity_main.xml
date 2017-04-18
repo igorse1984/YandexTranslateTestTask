@@ -1,15 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1">
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorToolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.Toolbar>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorButton"
+        android:onClick="onMyButtonClick"
+        android:text="@string/button_text"
+        android:textColor="@color/colorTextButton" />
+
+    <Button
+        android:id="@+id/buttonAvtivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorButton"
+        android:onClick="onMyButtonClickActivity"
+        android:text="посмотреть историю"
+        android:textColor="@color/colorTextButton" />
 
     <EditText
         android:id="@+id/editText"
@@ -17,9 +48,12 @@
         android:layout_height="100dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/spinner"
-        android:layout_marginTop="25dp"
-        android:hint="@string/enter_text" />
+        android:layout_below="@+id/toolbar"
+        android:background="@color/textBackground"
+        android:gravity="start"
+        android:hint="@string/enter_text"
+        android:padding="5dp"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/textView"
@@ -27,21 +61,9 @@
         android:layout_height="100dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/editText"
-        android:layout_marginTop="41dp"
-        android:textColor="@android:color/black"
-        android:textColorHint="@android:color/darker_gray"
-        android:textSize="18sp" />
-
-    <!--<Button-->
-        <!--android:id="@+id/button"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_below="@+id/editText"-->
-        <!--android:layout_marginTop="172dp"-->
-        <!--android:onClick="onMyButtonClick"-->
-        <!--android:text="@string/button_text" />-->
+        android:layout_below="@+id/button"
+        android:background="@color/textBackground"
+        android:padding="5dp"
+        android:textSize="20sp" />
 
 </RelativeLayout>

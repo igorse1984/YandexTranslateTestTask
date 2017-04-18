@@ -1,5 +1,6 @@
 package ru.igorsharov.yand_test;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
     EditText et;
     TextView tv;
     Spinner sp;
-    ArrayList<HashMap> historyAl = new ArrayList();
+    Button btn;
+    ArrayList<String[]> historyAl = new ArrayList();
 
     Map map = new HashMap<>();
     String strIn;
@@ -35,55 +38,65 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         et = (EditText) findViewById(R.id.editText);
         tv = (TextView) findViewById(R.id.textView);
         sp = (Spinner) findViewById(R.id.spinner);
+        btn = (Button) findViewById(R.id.button);
+        btn.setVisibility(View.VISIBLE);
 
         // запрос списка поддерживаемых для перевода языков и их загрузка в spinner
         new StartParsingLangs().execute();
         // выбор в Spinner-е
 
-        et.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                selectedLang = map.get(sp.getSelectedItem()).toString();
-            }
+        if (btn.getVisibility() == View.GONE) {
+            et.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    System.out.println("[beforeTextChanged] text: " + s + " start: " + start + " count: " + count + " after: " + after);
+                }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    System.out.println("[onTextChanged] text: " + s + " start: " + start + " count: " + count);
+                }
 
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!et.getText().toString().equals("")) {
-                    // если есть текст, введенный до нажатия кнопки
-                    strIn = et.getText().toString();
-                } else
-                    tv.setText("Пусто");
-
-                // запрос на перевод
-                new StartParsingTranslate().execute(strIn, selectedLang);
-            }
-        });
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (!et.getText().toString().equals("")) {
+                        selectedLang = map.get(sp.getSelectedItem()).toString();
+                        // если есть текст, введенный до нажатия кнопки
+                        strIn = et.getText().toString();
+                        // запрос на перевод
+                        new StartParsingTranslate().execute(strIn, selectedLang);
+                    } else
+                        tv.setText("Пусто");
+                }
+            });
+        }
     }
 
-//    public void onMyButtonClick(View view) {
-//
-//        if (et.getText().toString().equals("")) {
-//            // Здесь код, если EditText пуст
-//            Toast.makeText(this, "Текстовое поле пусто", Toast.LENGTH_SHORT).show();
-//        } else {
-//            // если есть текст, введенный до нажатия кнопки
-//            strIn = et.getText().toString();
-//        }
-//
-//        // выбор в Spinner-е
-//        String selectedLang = map.get(sp.getSelectedItem()).toString();
-//        // запрос на перевод
-//        new StartParsingTranslate().execute(strIn, selectedLang);
-//
-//    }
+    // обработка нажатий кнопки перевода
+    public void onMyButtonClick(View view) {
+
+        if (et.getText().toString().equals("")) {
+            // Здесь код, если EditText пуст
+            Toast.makeText(this, "Текстовое поле пусто", Toast.LENGTH_SHORT).show();
+        } else {
+            // если есть текст, введенный до нажатия кнопки
+            strIn = et.getText().toString();
+            // выбор в Spinner-е
+            String selectedLang = map.get(sp.getSelectedItem()).toString();
+            // запрос на перевод
+            new StartParsingTranslate().execute(strIn, selectedLang);
+        }
+    }
+
+    public void onMyButtonClickActivity(View view){
+        Intent intent = new Intent(this, Main2Activity.class);
+        intent.putExtra("HISTORY_LIST", historyAl);
+        startActivity(intent);
+    }
 
     private class StartParsingLangs extends AsyncTask<Void, Void, Void> {
         JSONObject jsonLangsObjAnswer;
@@ -109,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, list);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, R.layout.spinner_custom_item, list);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             sp.setAdapter(adapter);
 
@@ -118,22 +131,23 @@ public class MainActivity extends AppCompatActivity {
 
 
     private class StartParsingTranslate extends AsyncTask<String, String, Void> {
-        String translate;
-        HashMap<String, String> historyHm = new HashMap();
+        String[] historyTranslate = new String[3];
 
         @Override
         protected Void doInBackground(String... params) {
             // EditText -> params[0]
             String langType = new GetJSONDetect().fetchItems(params[0]);
-            translate = new GetJSONTranslate().fetchItems(params[0], params[1], langType).toString();
-            historyHm.put(params[0], translate);
-            historyAl.add(historyHm);
+            historyTranslate[0] = params[0];
+            historyTranslate[1] = new GetJSONTranslate().fetchItems(params[0], params[1], langType).toString();
+            // флаг избранного
+            historyTranslate[2] = "";
+            historyAl.add(historyTranslate);
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            tv.setText(translate);
+            tv.setText(historyTranslate[1]);
         }
     }
 
