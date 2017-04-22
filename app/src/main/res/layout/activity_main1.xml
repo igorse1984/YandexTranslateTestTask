@@ -12,7 +12,10 @@
         android:layout_height="wrap_content"
         android:background="@color/colorToolbar"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme">
+        android:theme="?attr/actionBarTheme"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <Spinner
             android:id="@+id/spinner"
@@ -27,19 +30,7 @@
         android:layout_below="@+id/editText"
         android:layout_centerHorizontal="true"
         android:background="@color/colorButton"
-        android:onClick="onMyButtonClick"
         android:text="@string/button_text"
-        android:textColor="@color/colorTextButton" />
-
-    <Button
-        android:id="@+id/buttonAvtivity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:background="@color/colorButton"
-        android:onClick="onMyButtonClickActivity"
-        android:text="посмотреть историю"
         android:textColor="@color/colorTextButton" />
 
     <EditText

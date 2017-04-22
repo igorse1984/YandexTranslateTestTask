@@ -1,4 +1,4 @@
-package ru.igorsharov.yand_test;
+package ru.igorsharov.yand_test.JSON;
 
 
 import android.net.Uri;
@@ -15,7 +15,7 @@ public class GetJSONTranslate extends GetJSON {
 
     // основной метод класса, делает запрос на сервер для перевода введеного текста
 
-    protected String fetchItems(String str, String select, String langType) {
+    public String fetchItems(String str, String select, String langType) {
         String translate = null;
         try {
             // компоновка url запроса

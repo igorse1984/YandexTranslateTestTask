@@ -1,4 +1,4 @@
-package ru.igorsharov.yand_test;
+package ru.igorsharov.yand_test.JSON;
 
 
 import java.io.IOException;

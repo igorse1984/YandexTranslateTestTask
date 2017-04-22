@@ -1,4 +1,4 @@
-package ru.igorsharov.yand_test;
+package ru.igorsharov.yand_test.JSON;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,7 +52,7 @@ public class JSONHelper {
         return map;
     }
 
-    // метод для возможности получения ключа языка при выборе из Spinner-а
+    // получаем кюч языка при выборе из Spinner-а
     public static Map<String, String> toMapReverseKey(JSONObject jsonObject) throws JSONException {
         Map<String, String> map = new HashMap();
         Iterator keys = jsonObject.keys();

@@ -1,4 +1,4 @@
-package ru.igorsharov.yand_test;
+package ru.igorsharov.yand_test.JSON;
 
 
 import android.net.Uri;
@@ -18,7 +18,7 @@ public class GetJSONLangs extends GetJSON {
     private static final String LOG_TAG = "GetJSONLang";
     private static final String URL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?";
 
-    protected JSONObject fetchItems() {
+    public JSONObject fetchItems() {
         JSONObject jsonObjLangsAnswer = null;
         try {
             // компоновка url запроса
