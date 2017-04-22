@@ -5,17 +5,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,13 +27,13 @@ import ru.igorsharov.yand_test.JSON.GetJSONLangs;
 import ru.igorsharov.yand_test.JSON.GetJSONTranslate;
 import ru.igorsharov.yand_test.JSON.JSONHelper;
 
-public class Main1Activity extends Fragment implements View.OnClickListener {
+public class TranslateActivity extends Fragment implements View.OnClickListener {
 
     EditText et;
     TextView tv;
     Spinner sp;
     Button btn;
-    ArrayList<TranslatedText> historyAl = new ArrayList<>();
+    ArrayList<TranslatedTextObject> historyAl = new ArrayList<>();
 
     Map map = new HashMap<>();
     String strIn;
@@ -45,7 +42,7 @@ public class Main1Activity extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_main1, container, false);
+        return inflater.inflate(R.layout.activity_translate, container, false);
     }
 
     @Override
@@ -109,7 +106,7 @@ public class Main1Activity extends Fragment implements View.OnClickListener {
      * парсинг перевода
      */
     private class StartParsingTranslate extends AsyncTask<String, Void, Void> {
-        TranslatedText tt = new TranslatedText();
+        TranslatedTextObject tt = new TranslatedTextObject();
 
         @Override
         protected Void doInBackground(String... params) {
@@ -120,8 +117,7 @@ public class Main1Activity extends Fragment implements View.OnClickListener {
             tt.setTranslatedText(new GetJSONTranslate().fetchItems(params[0], params[1], langType));
             // флаг избранного
             tt.setFavourite(false);
-            historyAl.add(tt);
-            TranslatedText.setExchangeTranslate(historyAl);
+            TranslatedTextObject.translate.add(tt);
             return null;
         }
 

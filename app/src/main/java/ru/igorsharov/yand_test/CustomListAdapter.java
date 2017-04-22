@@ -10,11 +10,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
-public class HistoryAdapter extends BaseAdapter {
-    private ArrayList<TranslatedText> al;
+public class CustomListAdapter extends BaseAdapter {
+    private ArrayList<TranslatedTextObject> al;
     private Context c;
 
-    public HistoryAdapter(ArrayList<TranslatedText> al, Context c) {
+    public CustomListAdapter(ArrayList<TranslatedTextObject> al, Context c) {
         this.al = al;
         this.c = c;
     }
@@ -25,7 +25,7 @@ public class HistoryAdapter extends BaseAdapter {
     }
 
     @Override
-    public TranslatedText getItem(int position) {
+    public TranslatedTextObject getItem(int position) {
         return al.get(position);
     }
 
@@ -45,36 +45,40 @@ public class HistoryAdapter extends BaseAdapter {
     }
 
     // инициализация элемента favourite для повторного использования
-    private void initFavourite(View v, TranslatedText tt) {
+    private void initFavourite(View v, TranslatedTextObject tt) {
         View imFavourite = v.findViewById(R.id.imFavourite);
-        if (tt.isFavourite())
+        if (tt.isFavourite()) {
             imFavourite.setVisibility(View.VISIBLE);
-        else
+        } else
             imFavourite.setVisibility(View.GONE);
     }
 
     // заполнение item-а
     private void fillView(View v, int position) {
-        final TranslatedText tt = getItem(position);
+        final TranslatedTextObject tt = getItem(position);
 
-        // запрашиваемый текст
+        // отображение передаваемого на перевод текста
         TextView tvRequestedText = (TextView) v.findViewById(R.id.tvRequestText);
         tvRequestedText.setText(tt.getRequestedText());
 
-        // favourite
+        // отображение флага избранного
         initFavourite(v, tt);
 
-        // текс перевода
+        // отображение текса перевода
         TextView tvTranslatedText = (TextView) v.findViewById(R.id.tvTranslatedText);
         tvTranslatedText.setText(tt.getTranslatedText());
 
-        // возможность клика
+        // добавление возможности клика по item-у
         v.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (tt.isFavourite())
+                if (tt.isFavourite()) {
                     tt.setFavourite(false);
-                else
+                    TranslatedTextObject.translateFavourite.remove(tt);
+                } else {
                     tt.setFavourite(true);
+                    TranslatedTextObject.translateFavourite.add(tt);
+                }
+
                 initFavourite(v, tt);
             }
         });

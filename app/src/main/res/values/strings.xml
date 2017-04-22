@@ -3,8 +3,8 @@
     <string name="button_text">Перевести</string>
     <string name="enter_text">Введите текст</string>
     <string name="list_history_name">История</string>
-    <string name="title_activity_main3">Main3Activity</string>
     <string name="action_settings">Settings</string>
     <string name="empty_list">История пуста</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="list_empty_favourite">Нет избранного перевода</string>
+    <string name="list_favourite_name">Избранное</string>
 </resources>

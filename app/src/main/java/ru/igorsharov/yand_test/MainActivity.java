@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity  {
 
-    final String LOG = "UserData2Activity";
     Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -23,8 +22,6 @@ public class MainActivity extends AppCompatActivity  {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
@@ -35,11 +32,13 @@ public class MainActivity extends AppCompatActivity  {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new Main1Activity(), "Перевод");
-        adapter.addFragment(new Main2Activity(), "История");
-//        adapter.addFragment(new FragmentData3(), "Данные3");
-//        adapter.addFragment(new FragmentData4(), "Данные4");
+        adapter.addFragment(new FavouriteActivity(), "Избранное");
+        adapter.addFragment(new TranslateActivity(), "Перевод");
+        adapter.addFragment(new HistoryActivity(), "История");
         viewPager.setAdapter(adapter);
+
+        // установка стартовой вкладки для вкладки перевода
+        viewPager.setCurrentItem(1);
     }
 
 

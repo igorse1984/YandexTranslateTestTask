@@ -2,20 +2,13 @@ package ru.igorsharov.yand_test;
 
 import java.util.ArrayList;
 
-public class TranslatedText {
+public class TranslatedTextObject {
 
     private String requestedText;
     private String translatedText;
     private Boolean isFavourite;
-    private static ArrayList<TranslatedText> exchangeTranslate;
-
-    public static ArrayList<TranslatedText> getExchangeTranslate() {
-        return exchangeTranslate;
-    }
-
-    public static void setExchangeTranslate(ArrayList<TranslatedText> exchangeTranslate) {
-        TranslatedText.exchangeTranslate = exchangeTranslate;
-    }
+    public static ArrayList<TranslatedTextObject> translate = new ArrayList<>();
+    public static ArrayList<TranslatedTextObject> translateFavourite = new ArrayList<>();
 
 
     public String getRequestedText() {

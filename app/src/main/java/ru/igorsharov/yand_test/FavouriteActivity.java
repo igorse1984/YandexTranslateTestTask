@@ -7,19 +7,17 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class Main2Activity extends ListFragment {
+public class FavouriteActivity extends ListFragment {
     int counter = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("Сработал onCreateView");
 
-//        return super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.activity_main2, null);
+        return inflater.inflate(R.layout.activity_favourite, null);
     }
 
 
@@ -48,12 +46,7 @@ public class Main2Activity extends ListFragment {
     public View getView() {
 
         System.out.println("Сработал getView " + counter++);
-        ArrayList<TranslatedText> historyList = TranslatedText.getExchangeTranslate();
-
-        if (historyList != null) {
-
-            setListAdapter(new HistoryAdapter(historyList, getActivity()));
-        }
+            setListAdapter(new CustomListAdapter(TranslatedTextObject.translateFavourite, getActivity()));
         return super.getView();
     }
 
