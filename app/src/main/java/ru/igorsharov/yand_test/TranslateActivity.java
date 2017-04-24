@@ -32,8 +32,6 @@ public class TranslateActivity extends Fragment implements View.OnClickListener 
     EditText et;
     TextView tv;
     Spinner sp;
-    Button btn;
-    ArrayList<TranslatedTextObject> historyAl = new ArrayList<>();
 
     Map map = new HashMap<>();
     String strIn;
@@ -53,9 +51,15 @@ public class TranslateActivity extends Fragment implements View.OnClickListener 
         et = (EditText) view.findViewById(R.id.editText);
         tv = (TextView) view.findViewById(R.id.textView);
         sp = (Spinner) view.findViewById(R.id.spinner);
-        btn = (Button) view.findViewById(R.id.button);
+        Button btn = (Button) view.findViewById(R.id.button);
+        Button btnClear = (Button) view.findViewById(R.id.buttonClear);
+        Button btnFavourite = (Button) view.findViewById(R.id.buttonFavourite);
+
+        // отключение кнопки при необходимости и переход на автоматический перевод
         btn.setVisibility(View.VISIBLE);
         btn.setOnClickListener(this);
+        btnClear.setOnClickListener(this);
+        btnFavourite.setOnClickListener(this);
 
         // запрос списка поддерживаемых для перевода языков и их загрузка в spinner
         new StartParsingLangs().execute();
@@ -90,15 +94,31 @@ public class TranslateActivity extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        if (!et.getText().toString().equals("")) {
-            selectedLang = map.get(sp.getSelectedItem()).toString();
-            // если есть текст, введенный до нажатия кнопки
-            strIn = et.getText().toString();
-            // запрос на перевод
-            new StartParsingTranslate().execute(strIn, selectedLang);
-
-        } else
-            tv.setText("Пусто");
+        switch (v.getId()) {
+            case R.id.button:
+                if (!et.getText().toString().equals("")) {
+                    selectedLang = map.get(sp.getSelectedItem()).toString();
+                    // если есть текст, введенный до нажатия кнопки
+                    strIn = et.getText().toString();
+                    // запрос на перевод
+                    new StartParsingTranslate().execute(strIn, selectedLang);
+                } else
+                    tv.setText("Пусто");
+                break;
+            case R.id.buttonClear:
+                et.setText(null);
+                tv.setText(null);
+                break;
+            case R.id.buttonFavourite:
+                if (!tv.getText().toString().equals("")) {
+                    ArrayList<TranslatedTextObject> arrayList = TranslatedTextObject.translate;
+                    TranslatedTextObject tt;
+                    tt = TranslatedTextObject.translate.get(arrayList.size() - 1);
+                    tt.setFavourite(true);
+                    TranslatedTextObject.translateFavourite.add(tt);
+                }
+                break;
+        }
     }
 
 
@@ -124,7 +144,6 @@ public class TranslateActivity extends Fragment implements View.OnClickListener 
         @Override
         protected void onPostExecute(Void aVoid) {
             tv.setText(tt.getTranslatedText());
-            //
         }
     }
 

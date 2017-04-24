@@ -5,8 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="textBackground">#e1e1e1</color>
     <color name="colorToolbar">#c90e0e</color>
-    <color name="colorButton">#000000</color>
-    <color name="colorTextButton">#ffffff</color>
+    <color name="colorButtonTranslate">#000000</color>
+    <color name="colorButtonTextFavourite">#f2a200</color>
+    <color name="colorButtonTextClear">#c90e0e</color>
     <color name="colorTextToolbar">#ffffff</color>
 
 </resources>

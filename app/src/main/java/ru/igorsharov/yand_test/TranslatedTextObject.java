@@ -10,7 +10,6 @@ public class TranslatedTextObject {
     public static ArrayList<TranslatedTextObject> translate = new ArrayList<>();
     public static ArrayList<TranslatedTextObject> translateFavourite = new ArrayList<>();
 
-
     public String getRequestedText() {
         return requestedText;
     }

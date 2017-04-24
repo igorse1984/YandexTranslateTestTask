@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity  {
 
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity  {
         adapter.addFragment(new HistoryActivity(), "История");
         viewPager.setAdapter(adapter);
 
-        // установка стартовой вкладки для вкладки перевода
+        // установка стартового фрагмента на фрагмент "перевод"
         viewPager.setCurrentItem(1);
     }
 
