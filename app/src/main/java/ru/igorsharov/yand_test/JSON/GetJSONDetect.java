@@ -22,7 +22,6 @@ public class GetJSONDetect extends GetJSON{
                     .appendQueryParameter("key", API_KEY)
                     .appendQueryParameter("text", str)
                     .build().toString();
-//            jsonObjDetectAnswer = new JSONObject(getJSONString(url));
          answLangType =  jsonParser(getJSONString(url));
 
 

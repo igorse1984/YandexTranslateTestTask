@@ -14,33 +14,6 @@ import java.util.Map;
 public class JSONHelper {
 
 
-    public static Object toJSON(Object object) throws JSONException {
-        if (object instanceof Map) {
-            JSONObject json = new JSONObject();
-            Map map = (Map) object;
-            for (Object key : map.keySet()) {
-                json.put(key.toString(), toJSON(map.get(key)));
-            }
-            return json;
-        } else if (object instanceof Iterable) {
-            JSONArray json = new JSONArray();
-            for (Object value : ((Iterable) object)) {
-                json.put(value);
-            }
-            return json;
-        } else {
-            return object;
-        }
-    }
-
-    public static boolean isEmptyObject(JSONObject object) {
-        return object.names() == null;
-    }
-
-    public static Map<String, Object> getMap(JSONObject object, String key) throws JSONException {
-        return toMap(object.getJSONObject(key));
-    }
-
     public static Map<String, Object> toMap(JSONObject jsonObject) throws JSONException {
         Map<String, Object> map = new HashMap();
         Iterator keys = jsonObject.keys();
@@ -52,7 +25,7 @@ public class JSONHelper {
         return map;
     }
 
-    // получаем кюч языка при выборе из Spinner-а
+    // получаем ключ языка при выборе из Spinner-а
     public static Map<String, String> toMapReverseKey(JSONObject jsonObject) throws JSONException {
         Map<String, String> map = new HashMap();
         Iterator keys = jsonObject.keys();
@@ -60,7 +33,6 @@ public class JSONHelper {
             String key = (String) keys.next();
             String jsonText = jsonObject.getString(key);
             map.put(jsonText, key);
-
         }
         return map;
     }
@@ -69,9 +41,9 @@ public class JSONHelper {
         Iterator keys = jsonObject.keys();
         List<String> list = new ArrayList<>(jsonObject.length());
 
-        // 2 места под русский и английский в начале списка
+        // резервируем 2 места под русский и английский в начале списка
         for (int i = 0; i < 2; i++)
-        list.add(null);
+            list.add(null);
 
         while (keys.hasNext()) {
             String key = (String) keys.next();
@@ -106,5 +78,32 @@ public class JSONHelper {
             return json;
         }
     }
+
+//    public static Object toJSON(Object object) throws JSONException {
+//        if (object instanceof Map) {
+//            JSONObject json = new JSONObject();
+//            Map map = (Map) object;
+//            for (Object key : map.keySet()) {
+//                json.put(key.toString(), toJSON(map.get(key)));
+//            }
+//            return json;
+//        } else if (object instanceof Iterable) {
+//            JSONArray json = new JSONArray();
+//            for (Object value : ((Iterable) object)) {
+//                json.put(value);
+//            }
+//            return json;
+//        } else {
+//            return object;
+//        }
+//    }
+//
+//    public static boolean isEmptyObject(JSONObject object) {
+//        return object.names() == null;
+//    }
+//
+//    public static Map<String, Object> getMap(JSONObject object, String key) throws JSONException {
+//        return toMap(object.getJSONObject(key));
+//    }
 }
 

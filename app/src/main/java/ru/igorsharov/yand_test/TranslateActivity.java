@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,8 +56,11 @@ public class TranslateActivity extends Fragment implements View.OnClickListener 
         Button btnClear = (Button) view.findViewById(R.id.buttonClear);
         Button btnFavourite = (Button) view.findViewById(R.id.buttonFavourite);
 
-        // отключение кнопки при необходимости и переход на автоматический перевод
+        // в случае отключения кнопки, условие ниже включит автоматическую бескнопочную
+        // отправку текста на перевод, опцию необходимо добавить на выбор пользователю
         btn.setVisibility(View.VISIBLE);
+
+        // такой вариант слушателя событий кнопок выбран с учетом оптимизации обработки событий
         btn.setOnClickListener(this);
         btnClear.setOnClickListener(this);
         btnFavourite.setOnClickListener(this);
@@ -64,7 +68,7 @@ public class TranslateActivity extends Fragment implements View.OnClickListener 
         // запрос списка поддерживаемых для перевода языков и их загрузка в spinner
         new StartParsingLangs().execute();
 
-        // выбор способа взаимодействия с пользователем для отправки на перевод
+        // бескнопочный сбор текста из EditText
         if (btn.getVisibility() == View.GONE)
 
         {
@@ -79,14 +83,7 @@ public class TranslateActivity extends Fragment implements View.OnClickListener 
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    if (!et.getText().toString().equals("")) {
-                        selectedLang = map.get(sp.getSelectedItem()).toString();
-                        // если есть текст, введенный до нажатия кнопки
-                        strIn = et.getText().toString();
-                        // запрос на перевод
-                        new StartParsingTranslate().execute(strIn, selectedLang);
-                    } else
-                        tv.setText("Пусто");
+                    requestTranslate();
                 }
             });
         }
@@ -96,14 +93,7 @@ public class TranslateActivity extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button:
-                if (!et.getText().toString().equals("")) {
-                    selectedLang = map.get(sp.getSelectedItem()).toString();
-                    // если есть текст, введенный до нажатия кнопки
-                    strIn = et.getText().toString();
-                    // запрос на перевод
-                    new StartParsingTranslate().execute(strIn, selectedLang);
-                } else
-                    tv.setText("Пусто");
+                requestTranslate();
                 break;
             case R.id.buttonClear:
                 et.setText(null);
@@ -121,6 +111,20 @@ public class TranslateActivity extends Fragment implements View.OnClickListener 
         }
     }
 
+    // сбор текста из EditText
+    private void requestTranslate() {
+        // если есть текст, введенный до нажатия кнопки
+        if (!et.getText().toString().equals("")) {
+            selectedLang = map.get(sp.getSelectedItem()).toString();
+            strIn = et.getText().toString();
+            // запрос на перевод
+            new StartParsingTranslate().execute(strIn, selectedLang);
+        } else
+            tv.setText("Пусто");
+    }
+
+    // т.к. сетевые запросы не работают из потока Main, был выбран AsyncTask.
+    // В многопоточности не профи, и чувствую здесь можно поступить оптимальнее.
 
     /**
      * парсинг перевода
@@ -163,7 +167,7 @@ public class TranslateActivity extends Fragment implements View.OnClickListener 
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            List list = new ArrayList();
+            List<String> list = new ArrayList<>();
 
             try {
                 JSONObject jsonLangsObj = jsonLangsObjAnswer.getJSONObject("langs");

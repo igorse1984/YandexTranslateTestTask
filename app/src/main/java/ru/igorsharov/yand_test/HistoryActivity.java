@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 public class HistoryActivity extends ListFragment {
 
+
     private CustomListAdapter adapter;
 
     private final String TAG = "HistoryActivity_LOG";
@@ -17,7 +18,7 @@ public class HistoryActivity extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "Сработал onCreateView");
-        return inflater.inflate(R.layout.activity_history, null);
+        return inflater.inflate(R.layout.activity_history, container, false);
     }
 
 

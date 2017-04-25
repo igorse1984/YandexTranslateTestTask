@@ -15,7 +15,7 @@ public class FavouriteActivity extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_favourite, null);
+        return inflater.inflate(R.layout.activity_favourite, container, false);
     }
 
 
