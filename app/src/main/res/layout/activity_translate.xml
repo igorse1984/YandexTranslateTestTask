@@ -43,8 +43,8 @@
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:text="@string/list_favourite_name"
-
-            android:textColor="@color/colorButtonTextClear" />
+            android:textColor="@color/colorButtonTextFavourite"
+             />
 
         <Button
             android:id="@+id/buttonClear"
@@ -53,7 +53,8 @@
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:text="@string/clear"
-            android:textColor="@color/colorButtonTextFavourite" />
+            android:textColor="@color/colorButtonTextClear"
+             />
 
         <Button
             android:id="@+id/button"
